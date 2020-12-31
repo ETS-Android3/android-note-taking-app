@@ -16,16 +16,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-
 import org.json.JSONArray;
-
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-
 import bd.org.notetaker.App;
 import bd.org.notetaker.R;
 import bd.org.notetaker.db.Controller;
@@ -38,36 +34,28 @@ import bd.org.notetaker.model.Drawer;
 
 public class MainActivity extends AppCompatActivity implements RecyclerFragment.Callbacks {
 	public static final int PERMISSION_REQUEST = 3;
-
 	private DrawerLayout drawerLayout;
 	public View drawerHolder;
 	private boolean exitStatus = false;
-
 	private MainFragment fragment;
 	private Toolbar toolbar;
 	private View selectionEdit;
 	private boolean permissionNotGranted = false;
 	private boolean checkForPermission = true;
-
 	public Handler handler = new Handler();
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-
 		try {
 			//noinspection ConstantConditions
 			getSupportActionBar().setDisplayShowTitleEnabled(false);
 		} catch (Exception ignored) {
 		}
-
 		setupDrawer();
-
 		selectionEdit = findViewById(R.id.selection_edit);
 		selectionEdit.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -75,15 +63,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 				fragment.onEditSelected();
 			}
 		});
-
 		if (savedInstanceState == null) {
 			fragment = new MainFragment();
-
 			getSupportFragmentManager().beginTransaction()
 				.add(R.id.container, fragment)
 				.commit();
 		}
-
 		if (checkForPermission) {
 			checkForPermission = false;
 			if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -111,38 +96,28 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 			}
 		}
 	}
-
 	@Override
 	public void onBackPressed() {
 		if (drawerLayout.isDrawerOpen(drawerHolder)) {
 			drawerLayout.closeDrawers();
 			return;
 		}
-
 		if (fragment.selectionState) {
 			fragment.toggleSelection(false);
 			return;
 		}
-
 		if (exitStatus) {
 			finish();
 		} else {
 			exitStatus = true;
-
 			Snackbar.make(fragment.fab != null ? fragment.fab : toolbar, R.string.exit_message, Snackbar.LENGTH_LONG).show();
-
-
 		}
 	}
-
 	private void setupDrawer() {
 		// Set date in drawer
 		((TextView) findViewById(R.id.drawer_date)).setText(Formatter.formatDate());
-
 		drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawerHolder = findViewById(R.id.drawer_holder);
-
-
 		// Settings button
 		findViewById(R.id.settings_btn).setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -151,12 +126,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 			}
 		});
 	}
-
 	private void onClickDrawer(final int type) {
 //		drawerLayout.closeDrawers();
 
 	}
-
 	@Override
 	public void onChangeSelection(boolean state) {
 		if (state) {
@@ -171,17 +144,13 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 				.animate(R.anim.fade_in);
 		}
 	}
-
 	@Override
 	public void toggleOneSelection(boolean state) {
 		selectionEdit.setVisibility(state ? View.VISIBLE : View.GONE);
 	}
-
-
 	private void requestPermission() {
 		ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST);
 	}
-
 	private void displayPermissionError() {
 		new MaterialDialog.Builder(this)
 			.title(R.string.permission_error)
@@ -205,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 			})
 			.show();
 	}
-
 	@Override
 	protected void onResumeFragments() {
 		super.onResumeFragments();
@@ -214,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements RecyclerFragment.
 			displayPermissionError();
 		}
 	}
-
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		if (Manifest.permission.WRITE_EXTERNAL_STORAGE.equals(permissions[0])) {
