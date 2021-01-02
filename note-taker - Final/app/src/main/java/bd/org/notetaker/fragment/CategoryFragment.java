@@ -64,7 +64,6 @@ public class CategoryFragment extends RecyclerFragment<Note, NoteAdapter> {
 	}
 	private void startNoteActivity(final int type, final long noteId, final int position) {
 		toggleFab(true);
-
 	}
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -85,7 +84,6 @@ public class CategoryFragment extends RecyclerFragment<Note, NoteAdapter> {
 					refreshItem(position);
 					break;
 				case NoteActivity.RESULT_DELETE:
-
 					break;
 			}
 		}
