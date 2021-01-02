@@ -18,7 +18,6 @@ public class DrawingNoteFragment extends NoteFragment {
 	@Override
 	public void saveNote(final SaveListener listener) {
 		super.saveNote(listener);
-
 	}
 	@Override
 	public void init(View view) {
