@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-
 import bd.org.notetaker.R;
 import bd.org.notetaker.activity.NoteActivity;
 import bd.org.notetaker.db.OpenHelper;
@@ -27,22 +26,17 @@ abstract public class NoteFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		return inflater.inflate(getLayout(), container, false);
 	}
-
 	@Override
 	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
 		deleteBtn = getActivity().findViewById(R.id.delete_btn);
 		title = (EditText) view.findViewById(R.id.title_txt);
-
 		Intent data = getActivity().getIntent();
 		long noteId = data.getLongExtra(OpenHelper.COLUMN_ID, DatabaseModel.NEW_MODEL_ID);
 		final long categoryId = data.getLongExtra(OpenHelper.COLUMN_PARENT_ID, DatabaseModel.NEW_MODEL_ID);
-
 		if (noteId != DatabaseModel.NEW_MODEL_ID) {
 			note = Note.find(noteId);
 		}
-
 		if (note == null) {
 			note = new Note();
 			activity.setNoteResult(NoteActivity.RESULT_NEW, false);
@@ -62,18 +56,14 @@ abstract public class NoteFragment extends Fragment {
 				}
 			});
 		}
-
 		title.setText(note.title);
-
 		init(view);
 	}
-
 	@Override
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		activity = (Callbacks) context;
 	}
-
 	public void saveNote(SaveListener listener) {
 		String inputTitle = title.getText().toString();
 		if (inputTitle.isEmpty()) inputTitle = "Untitled";
@@ -82,14 +72,11 @@ abstract public class NoteFragment extends Fragment {
 			note.createdAt = System.currentTimeMillis();
 		}
 	}
-
 	abstract public int getLayout();
 	abstract public void init(View view);
-
 	public interface SaveListener {
 		void onSave();
 	}
-
 	public interface Callbacks {
 		void setNoteResult(int result, boolean closeActivity);
 	}
