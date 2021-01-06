@@ -34,7 +34,6 @@
         <item name="colorAccent">@color/blue</item>
         <item name="fabColor">@drawable/fab_blue</item>
     </style>
-
     <style name="AppThemeCyan" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/cyan</item>
         <item name="colorPrimaryDark">@color/cyan_dark</item>
